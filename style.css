@@ -1,0 +1,195 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url(backgroundimage1.png) center/cover no-repeat;
+}
+.container{
+    width: 95%;
+    max-width: 1400px;
+    min-height: 90vh;
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
+.sidebar{
+    width: 320px;
+    height: 630px;
+    background: rgba(128, 128, 128, 0.15);
+    backdrop-filter: blur(15px);
+    border-radius: 25px;
+    padding: 25px;
+    color: white;
+    margin-bottom: auto;
+}
+.search-box{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 12px 15px;
+    border-radius: 15px;
+}
+.search-box input{
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    width: 100%;
+}
+.search-box input::placeholder{
+    color: white;
+}
+.weather-icon{
+    text-align: center;
+    font-size: 120px;
+    margin: 20px 0px;
+}
+.weather-icon img{
+    margin-bottom: -100px;
+}
+.location h4{
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+.location h1{
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+.location p{
+    color: white;
+}
+.forecast-title{
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.forecast-options{
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.forecast-options button{
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.forecast-options button:hover{
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(0.9);
+}
+.forecast-item{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+.forecast-item i{
+    font-size: 35px;
+}
+.right-side{
+    /* flex: 1; */
+    color: white;
+}
+.title{
+    font-size: 50px;
+    margin-bottom: 25px;
+}
+.hourly-forecast{
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    margin-bottom: 40px;
+}
+.hour-card{
+    min-width: 120px;
+    height: 170px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in;
+}
+.hour-card:hover{
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(0.9);
+}
+.hour-card i{
+    font-size: 40px;
+}
+.hour-card h2{
+    font-size: 35px;
+}
+.highlights-title{
+    font-size: 50px;
+    margin-bottom: 25px;
+}
+.highlights{
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.highlights-card{
+    flex: 1;
+    min-height: 300px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: all 0.3s ease-in;
+}
+.highlights-card:hover{
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+.highlights-card p{
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+@media (max-width:1024px){
+    .container{
+        flex-direction: column;
+    }
+    .sidebar{
+        width: 100%;
+    }
+    .title{
+        font-size: 40px;
+    }
+    .highlights-title{
+        font-size: 40px;
+    }
+    .highlights-card p{
+        font-size: 22px;
+    }
+}
+@media(max-width:768px){
+    .title{
+        font-size: 35px;
+    }
+    .hour-card{
+        min-width: 100px;
+        height: 150px;
+    }
+    .location h1{
+        font-size: 40px;
+    }
+    .highlights-card p{
+        font-size: 18px;
+    }
+}
