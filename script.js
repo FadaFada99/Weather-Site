@@ -1,111 +1,108 @@
-const currentURL = `https://api.openweathermap.org/data/4.0/onecall/current?lat={lat}&lon={lon}&appid={API key}`;
+const API_KEY="968a6baebb080fef9de33c66739aa544";
+const coordinateURL = `https://api.openweathermap.org/geo/1.0/direct`;
+const weatherURL =  `https://api.openweathermap.org/data/2.5/weather`
 
-async function getWeather(city) {
+const placeSearch = document.getElementById('searchBox')
+
+async function getWeatherCondition(lon, lat) {
+    try {
+            const response = await fetch(`${weatherURL}?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`);
+            if(!response.ok){
+            throw new Error("City not found");
+            }
+
+            const data = await response.json();
+            return data;
+    } catch (error) {
+        alert(error.message);
+    }    
+}
+
+async function getCoordinate(city) {
     try{
-        const response = await fetch(
+            const response = await fetch(`${coordinateURL}?q=${encodeURIComponent(city)}&limit=1&appid=${API_KEY}`);
+            if(!response.ok){
+            throw new Error("City not found");
+            }
 
-            `${currentURL}?q=${city}&units=metric&appid=${API_KEY}`
-        );
-        if(!response.ok){
-        throw new Error("City not found");
-        }
+            const data = await response.json();
+            const longitude = data[0].lon
+            const latitude = data[0].lat
 
-        const data = await response.json();
-        displayWeather(data);
+            const weather_response = await getWeatherCondition(longitude, latitude)
+            console.log(weather_response)
+            ReplaceValue(weather_response)
         }
     catch(error){
         alert(error.message);
     }
 }
-getWeather();
 
-// function displayWeather(data){
+// async function getAirQuality(lon, lat){
 
-// document.getElementById("cityName").innerHTML =
-// `${data.name}, ${data.sys.country}`;
+//     const response = await fetch(
+//       `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+//     );
 
-// document.getElementById("temperature").innerHTML =
-// `${Math.round(data.main.temp)}°C`;
+//     const data = await response.json();
 
-// document.getElementById("description").innerHTML =
-// data.weather[0].description;
-
-// document.getElementById("humidity").innerHTML =
-// `${data.main.humidity}%`;
-
-// document.getElementById("wind").innerHTML =
-// `${data.wind.speed} km/hr`;
-
-// document.getElementById("visibility").innerHTML =
-// `${data.visibility/1000} km`;
-
-// document.getElementById("sunrise").innerHTML =
-// convertTime(data.sys.sunrise);
-
-// document.getElementById("sunset").innerHTML =
-// convertTime(data.sys.sunset);
-
-// changeIcon(data.weather[0].icon);
-
+//     return data;
 // }
 
-// function convertTime(unix){
+function convertTimestamp (suntime){
+    const sunriseDate = new Date(suntime * 1000); // convert seconds to milliseconds
 
-//     const date =
-//     new Date(unix*1000);
+    const formattedSunrise = sunriseDate.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true
+    });
+    
+    return formattedSunrise
+}
 
-//     return date.toLocaleTimeString([],{
 
-//     hour:"2-digit",
 
-//     minute:"2-digit"
+placeSearch.addEventListener('keydown', (event)=>{
+    if(event.key === 'Enter'){
+        const place = placeSearch.value
+        getCoordinate(place)
+        placeSearch.value = ''
+    }
+    
+})
 
-//     });
-// }
+function ReplaceValue (data){
 
-// function changeIcon(icon){
+    const cityName = document.getElementById('cityName')
+    const citytemperature = document.getElementById('temperature')
+    const currentDate = document.getElementById('currentDate')
+    const windSpeed = document.getElementById ('wind')
+    const sunrise = document.getElementById ('sunrise')
+    const sunset = document.getElementById ('sunset')
+    const humidity = document.getElementById('humidity');
+    const visibility = document.getElementById('visibility');
+    // const airQuality = await getAirQuality(longitude,latitude);
+    // // console.log(airData);
 
-// const weatherIcon = document.getElementById("weatherIcon");
 
-// weatherIcon.src = `https://openweathermap.org/img/wn/${icon}@4x.png`;
 
-// }
+    cityName.innerHTML = data?.name
+    citytemperature.innerText = `${data?.main.temp}°C`
+    currentDate.innerHTML = new Date().toDateString()
+    windSpeed.innerHTML =`Wind Speed - ${data?.wind.speed}km/hr`
+    sunrise.innerHTML = `Sunrise - ${convertTimestamp(data?.sys.sunrise)}`
+    sunset.innerHTML = `Sunset - ${convertTimestamp(data?.sys.sunset)}`
+    humidity.innerHTML = `Humidity - ${data?.main.humidity}%`;
+    visibility.innerHTML = `Visibility - ${(data.visibility / 1000).toFixed(1)} km`;
 
-// document.getElementById("searchBtn").addEventListener("click",()=>{
+    
 
-// const city = document.getElementById("searchBox").value;
+}
 
-// if(city!="") {getWeather(city);
-// }
-// });
 
-// document.getElementById("searchBox").addEventListener("keypress",(e)=>{
 
-// if(e.key==="Enter"){getWeather(e.target.value);
-// }
-// });
 
-// window.onload=()=>{getWeather("London");
-// }
 
-// function getLocation(){navigator.geolocation.getCurrentPosition(
 
-// async(position)=>{
 
-// const lat=position.coords.latitude;
-
-// const lon=position.coords.longitude;
-
-// const response=
-// await fetch(
-// `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
-// );
-
-// const data=
-// await response.json();
-
-// displayWeather(data);
-
-// });
-
-// }
